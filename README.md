@@ -1,143 +1,111 @@
 # DSWP-Experiment-4
-# DSWP-Experiment-3-Retail-Sales-and-Profit-Analysis-Using-Pandas
+# DSWP-Experiment-4-Yearly-Revenue-Growth-Visualization-Using-Matplotlib
 
 ## Aim
-To create a sample retail dataset, identify and handle missing values (NaN/None) and duplicate records, and compute summary statistics using Pandas in Python.
+
+To visualize the yearly trend of company revenue and expenses from 2017 to 2023 using Matplotlib by plotting multi-line charts with customized markers, labels, legends, gridlines, and point annotations.
 
 ## Algorithm
 
-*Start* the program.
-*Import Library*: Import the pandas library as pd for tabular data cleaning and analysis.
-*Initialize Raw Retail Dataset*: Create a Python dictionary data containing retail records (Order_ID, Product, Region, Sales, Discount, Profit) with deliberate missing (None) entries and duplicate rows.
-*Construct DataFrame & Inspect*:
-   * Convert data into a Pandas DataFrame df using pd.DataFrame(data).
-   * Print the original dataset and its initial dimensions (df.shape).
-*Detect Missing Values*:
-   * Count missing entries per column using df.isnull().sum().
-*Impute Missing Values*:
-   * Replace missing numerical values in Sales, Discount, and Profit with their respective column means using .fillna(df[col].mean()).
-   * Replace missing categorical values in Region with the column mode (most frequent category) using .fillna(df["Region"].mode()[0]).
-*Remove Duplicate Records*:
-   * Drop exact duplicate rows from df using df.drop_duplicates().
-*Display Cleaned Dataset & Summary Statistics*:
-   * Print the cleaned DataFrame, updated dimensions (df.shape), and descriptive statistical metrics (df.describe()).
-*Stop* the program.
+1. **Start** the program.
+2. **Import Libraries**: Import `matplotlib.pyplot` as `plt` for plotting and `numpy` as `np` for numeric array generation and index lookup.
+3. **Initialize Dataset**:
+   * Generate an array `years` spanning `2017` to `2023` using `np.arange(2017, 2024)`.
+   * Define lists `revenue` and `expenses` representing annual amounts in Lakhs.
+4. **Configure Figure & Plot Lines**:
+   * Initialize a figure canvas of size $8 \times 5$ inches using `plt.figure(figsize=(8, 5))`.
+   * Plot `revenue` against `years` as a solid green line with circular markers (`marker='o'`).
+   * Plot `expenses` against `years` as a dashed red line (`linestyle='--'`) with square markers (`marker='s'`).
+5. **Format Chart Aesthetics**:
+   * Add a bold chart title (`plt.title()`) and axis labels (`plt.xlabel()`, `plt.ylabel()`).
+   * Enable dashed semi-transparent gridlines (`plt.grid()`) and place the legend in the upper-left corner (`plt.legend(loc='upper left')`).
+6. **Annotate Peak Values**:
+   * Find the indices of maximum revenue and maximum expenses using `np.argmax()`.
+   * Highlight both peak data points on the chart with directional arrows and text callouts using `plt.annotate()`.
+7. **Adjust Layout & Display**:
+   * Prevent label clipping via `plt.tight_layout()` and render the final plot with `plt.show()`.
+8. **Stop** the program.
 
 ## Functions and Methods Used
 
 | Category | Function / Method | Purpose / Description |
 | :--- | :--- | :--- |
-| *Data Creation & Inspection* | pd.DataFrame() | Converts a Python dictionary into a labeled 2D tabular DataFrame |
-| | df.shape | Returns the (rows, columns) dimensions before and after cleaning |
-| | df.isnull().sum() | Counts the number of missing (NaN/None) values in each column |
-| *Missing Value Imputation* | df[col].fillna() | Replaces missing values with a specified replacement value |
-| | df[col].mean() | Calculates the arithmetic mean for numerical column imputation |
-| | df[col].mode()[0] | Retrieves the most frequent category for categorical column imputation |
-| *Deduplication & Summary* | df.drop_duplicates() | Identifies and removes duplicate rows from the DataFrame |
-| | df.describe() | Generates count, mean, standard deviation, min, quartiles, and max for numerical features |
+| **Numerical Operations** | `np.arange()` | Generates evenly spaced integer years (`2017` through `2023`) |
+| | `np.argmax()` | Returns the array index of the maximum revenue and expense values |
+| **Line Plotting** | `plt.figure()` | Initializes a new figure window with custom dimensions |
+| | `plt.plot()` | Draws line plots with customized markers, colors, line styles, and widths |
+| **Chart Formatting** | `plt.title()`, `plt.xlabel()`, `plt.ylabel()` | Adds descriptive title and axis labels with custom font sizes |
+| | `plt.grid()`, `plt.legend()` | Adds background gridlines and displays series labels in the upper left |
+| **Annotations & Display** | `plt.annotate()` | Places text labels with arrows pointing to peak revenue and expense points |
+| | `plt.tight_layout()`, `plt.show()` | Optimizes spacing to avoid overlapping elements and renders the figure |
 
-## Program
-## Input 1
+## Program / Code
+## Input 
+```
+# Company Revenue and Expense Visualization using Matplotlib
 
-# Cleaning and Preparing Retail Data using Pandas
-import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 
-# Step 1: Create a sample retail dataset
-data = {
-    "Order_ID": [101, 102, 103, 104, 105, 105, 106, 107],
-    "Product": ["Laptop", "Tablet", "Phone", "Printer", "Monitor", "Monitor", "Tablet", "Laptop"],
-    "Region": ["East", "West", "North", "South", "East", "East", "West", None],
-    "Sales": [55000, 32000, None, 18000, 24000, 24000, 32000, 55000],
-    "Discount": [5, None, 10, 8, 5, 5, None, 8],
-    "Profit": [8000, 5000, 4000, None, 3000, 3000, 5000, 8000]
-}
+# Step 1: Create dataset
+years = np.arange(2017, 2024)
 
-df = pd.DataFrame(data)
-print("---- Original Retail Dataset ----")
-print(df)
-print("\nDataset Shape:", df.shape)
+revenue = [20, 25, 28, 35, 40, 45, 52]  # in lakhs
 
-## Output 1
+expenses = [15, 18, 22, 27, 30, 33, 38]  # in lakhs
 
----- Original Retail Dataset ----
-   Order_ID  Product Region    Sales  Discount  Profit
-0       101   Laptop   East  55000.0       5.0  8000.0
-1       102   Tablet   West  32000.0       NaN  5000.0
-2       103    Phone  North      NaN      10.0  4000.0
-3       104  Printer  South  18000.0       8.0     NaN
-4       105  Monitor   East  24000.0       5.0  3000.0
-5       105  Monitor   East  24000.0       5.0  3000.0
-6       106   Tablet   West  32000.0       NaN  5000.0
-7       107   Laptop   None  55000.0       8.0  8000.0
+# Step 2: Plot Revenue and Expenses
+plt.figure(figsize=(8, 5))
 
-Dataset Shape: (8, 6)
+plt.plot(years, revenue, marker='o', color='green',
+         linewidth=2, label='Revenue')
 
-## Input 2
+plt.plot(years, expenses, marker='s', color='red',
+         linestyle='--', linewidth=2, label='Expenses')
 
-# Step 2: Check for missing values
-print("\nMissing Values per Column:\n", df.isnull().sum())
+# Step 3: Add titles, labels, and grid
+plt.title("Company Revenue and Expense Trends (2017 - 2023)",
+          fontsize=13, fontweight="bold")
 
-## Output 2
+plt.xlabel("Year", fontsize=11)
+plt.ylabel("Amount (in Lakhs)", fontsize=11)
 
-Missing Values per Column:
- Order_ID    0
-Product     0
-Region      1
-Sales       1
-Discount    2
-Profit      1
-dtype: int64
+plt.grid(True, linestyle='--', alpha=0.6)
 
-## Input 3
+# Step 4: Add legend
+plt.legend(loc='upper left')
 
-# Step 3: Fill missing numeric values with column mean
-df["Sales"] = df["Sales"].fillna(df["Sales"].mean())
-df["Discount"] = df["Discount"].fillna(df["Discount"].mean())
-df["Profit"] = df["Profit"].fillna(df["Profit"].mean())
+# Step 5: Annotate highest revenue and expense
+max_rev_index = np.argmax(revenue)
+max_exp_index = np.argmax(expenses)
 
-# Step 4: Fill missing Region with mode (most frequent value)
-df["Region"] = df["Region"].fillna(df["Region"].mode()[0])
+plt.annotate(
+    f"Highest Revenue: {revenue[max_rev_index]}L",
+    xy=(years[max_rev_index], revenue[max_rev_index]),
+    xytext=(years[max_rev_index]-0.5,
+            revenue[max_rev_index]+2),
+    arrowprops=dict(facecolor='black', arrowstyle='->')
+)
 
-# Step 5: Remove duplicate records
-df = df.drop_duplicates()
+plt.annotate(
+    f"Highest Expense: {expenses[max_exp_index]}L",
+    xy=(years[max_exp_index], expenses[max_exp_index]),
+    xytext=(years[max_exp_index]-0.5,
+            expenses[max_exp_index]+2),
+    arrowprops=dict(facecolor='black', arrowstyle='->')
+)
 
-print("\n---- Cleaned Retail Dataset ----")
-print(df)
-print("\nDataset Shape after Cleaning:", df.shape)
+# Step 6: Show plot
+plt.tight_layout()
 
-## Output 3
+plt.show()
+```
 
----- Cleaned Retail Dataset ----
-   Order_ID  Product Region         Sales   Discount       Profit
-0       101   Laptop   East  55000.000000   5.000000  8000.000000
-1       102   Tablet   West  32000.000000   6.833333  5000.000000
-2       103    Phone  North  34285.714286  10.000000  4000.000000
-3       104  Printer  South  18000.000000   8.000000  5142.857143
-4       105  Monitor   East  24000.000000   5.000000  3000.000000
-6       106   Tablet   West  32000.000000   6.833333  5000.000000
-7       107   Laptop   East  55000.000000   8.000000  8000.000000
+## Output
 
-Dataset Shape after Cleaning: (7, 6)
-
-## Input 4
-
-# Step 6: Display summary statistics
-print("\nSummary Statistics:\n", df.describe())
-
-## Output 4
-
-Summary Statistics:
-          Order_ID         Sales   Discount       Profit
-count    7.000000      7.000000   7.000000     7.000000
-mean   104.000000  35755.102041   7.095238  5448.979592
-std      2.160247  14285.884353   1.779141  1897.776306
-min    101.000000  18000.000000   5.000000  3000.000000
-25%    102.500000  28000.000000   5.916667  4500.000000
-50%    104.000000  32000.000000   6.833333  5000.000000
-75%    105.500000  44642.857143   8.000000  6571.428571
-max    107.000000  55000.000000  10.000000  8000.000000
-
+<img width="786" height="490" alt="image" src="https://github.com/user-attachments/assets/77e36eef-b3fd-4832-907d-d477082413b4" />
 
 
 ## Result
-The program successfully creates a retail dataset, identifies missing entries and duplicate rows, imputes missing values using mean and mode strategies, removes duplicates, and outputs a clean dataset ready for downstream analysis.
+
+The program successfully creates datasets for yearly company revenue and expenses and renders an annotated multi-line comparison chart using Matplotlib.
